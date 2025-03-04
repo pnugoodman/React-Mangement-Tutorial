@@ -1,56 +1,62 @@
+import React, {useState, useEffect} from 'react';
 import { Table, TableBody, TableHead, TableRow, TableCell, Paper } from '@mui/material';
 import './App.css';
-import Cutstomer from './components/Customer';
+import Customer from './components/Customer';
 
-const styles = theme => ({
-  root:{
-    width:'100%',
-    marginTop: theme.spcig.unit *3,
-    overflowX:"auto"
+const styles = {
+  root: {
+    width: "100%",
+    marginTop: 24, // theme.spacing.unit * 3 대신 직접 숫자 사용
+    overflowX: "auto",
   },
   table: {
-    minWiddth: 1080
-  }
-})
-
-const customers = [
-  {
-    'id':'1',
-    'image': 'https://placeimag.com/64/64/1',
-    'name':'홍길동', 
-    'birthday':'01030012266',
-    'sex':'남자',
-    'job':'대학생',
+    minWidth: 1080, // 철자 수정
   },
-  {
-    'id':'2',
-    'image': 'https://placeimag.com/64/64/2',
-    'name':'김나리', 
-    'birthday':'01030012267',
-    'sex':'여자',
-    'job':'직장',
-  },
-  {
-    'id':'1',
-    'image': 'https://placeimag.com/64/64/3',
-    'name':'이기리', 
-    'birthday':'01030012268',
-    'sex':'남자',
-    'job':'군인',
-  }
-]
+};
 
 function App() {
-  //const { classes} = this.props;
+  const [customers, setCustomers] = useState([]); // useState로 상태 관리
+
+  useEffect(() => {
+    const callApi = async () => {
+      try {
+        const response = await fetch("/api/customers");
+        const body = await response.json();
+        setCustomers(body); // useState로 상태 업데이트
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    callApi();
+  }, []);
+
   return (
-    <Paper> 
-      <Table>
+    <Paper style={styles.root}>
+      <Table style={styles.table}>
         <TableHead><TableRow><TableCell>번호</TableCell><TableCell>이미지</TableCell><TableCell>이름</TableCell><TableCell>생일</TableCell><TableCell>성별</TableCell><TableCell>직업</TableCell></TableRow></TableHead>
         <TableBody>
-          {customers.map(c => {return(<Cutstomer key = {c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} sex={c.sex} job={c.job} /> ) }) }        
+          {customers.length > 0 ? (
+            customers.map((c) => (
+              <Customer
+                key={c.id}
+                id={c.id}
+                image={c.image}
+                name={c.name}
+                birthday={c.birthday}
+                sex={c.sex}
+                job={c.job}
+              />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan="6" align="center">Loading...</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </Paper>
   );
 }
+
 export default App;
