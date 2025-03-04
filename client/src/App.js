@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Table, TableBody, TableHead, TableRow, TableCell, Paper } from '@mui/material';
+import { Table, TableBody, TableHead, TableRow, TableCell, Paper, CircularProgress } from '@mui/material';
 import './App.css';
 import Customer from './components/Customer';
 
@@ -16,6 +16,7 @@ const styles = {
 
 function App() {
   const [customers, setCustomers] = useState([]); // useState로 상태 관리
+  const [progress, setProgress] = useState(0); // useState로 상태 관리
 
   useEffect(() => {
     const callApi = async () => {
@@ -27,8 +28,21 @@ function App() {
         console.error(err);
       }
     };
+    const interval = setInterval(()=>{
+      setProgress((prevProgress)=> {
+        if(prevProgress >= 100) {
+          return 0;
+        }
+        return prevProgress + 10;
+      });
+    },200);
+    
 
     callApi();
+
+    return () => {
+      clearInterval(interval);
+    }
   }, []);
 
   return (
@@ -50,7 +64,10 @@ function App() {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan="6" align="center">Loading...</TableCell>
+              <TableCell colSpan="6" align="center">
+                <CircularProgress variant="determinate" value={progress} />
+                Loading...
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
