@@ -14,7 +14,7 @@ app.get('/api/customers', (req, res) =>{
     res.send([
         {
             'id':'1',
-            'image': 'https://placeimag.com/64/64/1',
+            'image': 'https://picsum.photos/64/1',
             'name':'홍길동', 
             'birthday':'01030012266',
             'sex':'남자',
@@ -22,7 +22,7 @@ app.get('/api/customers', (req, res) =>{
         },
         {
             'id':'2',
-            'image': 'https://placeimag.com/64/64/2',
+            'image': 'https://picsum.photos/64/2',
             'name':'김나리', 
             'birthday':'01030012267',
             'sex':'여자',
@@ -30,7 +30,7 @@ app.get('/api/customers', (req, res) =>{
         },
         {
             'id':'1',
-            'image': 'https://placeimag.com/64/64/3',
+            'image': 'https://picsum.photos/64/3',
             'name':'이기리', 
             'birthday':'01030012268',
             'sex':'남자',

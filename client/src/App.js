@@ -32,8 +32,8 @@ function App() {
   }, []);
 
   return (
-    <Paper style={styles.root}>
-      <Table style={styles.table}>
+    <Paper sx={{ width: 1080, margin: "auto", overflowX: "auto" }}> {/* ✅ 최신 MUI 스타일 */}
+      <Table sx={{ minWidth: 1080 }}> {/* ✅ 최신 MUI 스타일 */}
         <TableHead><TableRow><TableCell>번호</TableCell><TableCell>이미지</TableCell><TableCell>이름</TableCell><TableCell>생일</TableCell><TableCell>성별</TableCell><TableCell>직업</TableCell></TableRow></TableHead>
         <TableBody>
           {customers.length > 0 ? (
