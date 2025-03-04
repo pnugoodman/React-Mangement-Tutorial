@@ -1,12 +1,17 @@
+import { TableCell, TableRow } from "@mui/material";
 import React from "react";
 
 class Cutstomer extends React.Component{
     render(){
         return(
-            <div>
-                <CustomerProfile id = {this.props.id} image = {this.props.image} name={this.props.name}/>
-                <CustomerInfo birthday = {this.props.birthday} sex = {this.props.sex} job={this.props.job}/>
-            </div>
+            <TableRow>
+                <TableCell>{this.props.id}</TableCell>
+                <TableCell><img src = {this.props.image} alt="profile image"/></TableCell>
+                <TableCell>{this.props.name}</TableCell>
+                <TableCell>{this.props.birthday}</TableCell>
+                <TableCell>{this.props.sex}</TableCell>
+                <TableCell>{this.props.job}</TableCell>
+            </TableRow>
         )
     }
 }

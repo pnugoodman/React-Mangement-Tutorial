@@ -1,5 +1,17 @@
+import { Table, TableBody, TableHead, TableRow, TableCell, Paper } from '@mui/material';
 import './App.css';
 import Cutstomer from './components/Customer';
+
+const styles = theme => ({
+  root:{
+    width:'100%',
+    marginTop: theme.spcig.unit *3,
+    overflowX:"auto"
+  },
+  table: {
+    minWiddth: 1080
+  }
+})
 
 const customers = [
   {
@@ -29,25 +41,16 @@ const customers = [
 ]
 
 function App() {
+  //const { classes} = this.props;
   return (
-    <div>
-      {
-        customers.map(c => {
-          return(
-            <Cutstomer
-              key = {c.id}
-              id={c.id}
-              image={c.image}
-              name={c.name}
-              birthday={c.birthday}
-              sex={c.sex}
-              job={c.job}
-              />
-          )
-        })
-      }
-    </div>
+    <Paper> 
+      <Table>
+        <TableHead><TableRow><TableCell>번호</TableCell><TableCell>이미지</TableCell><TableCell>이름</TableCell><TableCell>생일</TableCell><TableCell>성별</TableCell><TableCell>직업</TableCell></TableRow></TableHead>
+        <TableBody>
+          {customers.map(c => {return(<Cutstomer key = {c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} sex={c.sex} job={c.job} /> ) }) }        
+        </TableBody>
+      </Table>
+    </Paper>
   );
 }
-
 export default App;
