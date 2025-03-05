@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Table, TableBody, TableHead, TableRow, TableCell, Paper, CircularProgress } from '@mui/material';
 import './App.css';
 import Customer from './components/Customer';
+import CustomerAdd from './components/CustomerAdd';
 
 const styles = {
   root: {
@@ -46,6 +47,7 @@ function App() {
   }, []);
 
   return (
+    <div>
     <Paper sx={{ width: 1080, margin: "auto", overflowX: "auto" }}> {/* ✅ 최신 MUI 스타일 */}
       <Table sx={{ minWidth: 1080 }}> {/* ✅ 최신 MUI 스타일 */}
         <TableHead><TableRow><TableCell>번호</TableCell><TableCell>이미지</TableCell><TableCell>이름</TableCell><TableCell>생일</TableCell><TableCell>성별</TableCell><TableCell>직업</TableCell></TableRow></TableHead>
@@ -73,6 +75,8 @@ function App() {
         </TableBody>
       </Table>
     </Paper>
+    <CustomerAdd/>
+    </div>
   );
 }
 
