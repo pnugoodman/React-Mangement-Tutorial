@@ -1,5 +1,5 @@
 import React from "react";
-import post from 'axios';
+import axios from 'axios';
 
 class CustomerAdd extends React.Component{
     constructor(props) {
@@ -15,6 +15,7 @@ class CustomerAdd extends React.Component{
     }
 
     handleFormSubmit = (e)=>{
+        console.log("추가하기 시작!");
         e.preventDefault()
         this.addCustomer()
             .then((response)=>{
@@ -23,12 +24,25 @@ class CustomerAdd extends React.Component{
             .catch((error) => {
                 console.error("Error adding customer:", error);
             });
+
+        this.setState({
+                file: null,
+                userName: '',
+                birthday: '',
+                sex: '',
+                job: '',
+                fileName: '',
+        })
+
+        window.location.reload();
+        console.log("고객 추가하기 끝!");
+        
     }
 
     handleFileChange = (e) =>{
         this.setState({
             file: e.target.files[0],
-            fileName: e.target.value
+            fileName: e.target.files[0]?.name || ''
         })
     }
 
@@ -51,20 +65,36 @@ class CustomerAdd extends React.Component{
             headers:{
                 'content-type':'multipart/form-data'
             }
-        }
-        return post(url, formData, config);
+        };
+        
+        return axios.post(url, formData, config);
     }
 
     render(){
         return(
             <form onSubmit={this.handleFormSubmit}>
-                <hi>고객 추가</hi>
-                프로필 이미지: <input type="file" name='file' file={this.state.file} value={this.state.filename} onChange={this.handleFileChange}/><br/>
-                이름: <input type="text" name='userName' value={this.state.userName} onChange={this.handleValueChange}/><br/>
-                생년월일: <input type="text" name='birthday' value={this.state.birthday} onChange={this.handleValueChange}/><br/>
-                성별: <input type="text" name='sex' value={this.state.sex} onChange={this.handleValueChange}/><br/>                
-                직업: <input type="text" name='job' value={this.state.job} onChange={this.handleValueChange}/><br/>                
-                <button type="submit"> 추가하기 </button>
+                <h1>고객 추가</h1>
+                <div>
+                    <label>프로필 이미지: </label>
+                    <input type="file" name="file" onChange={this.handleFileChange} />
+                </div>
+                <div>
+                    <label>이름: </label>
+                    <input type="text" name="userName" value={this.state.userName} onChange={this.handleValueChange} />
+                </div>
+                <div>
+                    <label>생년월일: </label>
+                    <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} />
+                </div>
+                <div>
+                    <label>성별: </label>
+                    <input type="text" name="sex" value={this.state.sex} onChange={this.handleValueChange} />
+                </div>
+                <div>
+                    <label>직업: </label>
+                    <input type="text" name="job" value={this.state.job} onChange={this.handleValueChange} />
+                </div>
+                <button type="submit">추가하기</button>
             </form>
         )
     }
