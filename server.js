@@ -30,7 +30,7 @@ app.get('/api/hello', (req, res) =>{
 
 app.get('/api/customers', (req, res) =>{
     connection.query(
-        "select * from customer",
+        "select * from customer where isDeleted = 0",
         (err, rows, fileds) => {
             res.send(rows);
         }
@@ -40,7 +40,7 @@ app.get('/api/customers', (req, res) =>{
 app.use('/image',express.static('./upload'));
 
 app.post('/api/customers', upload.single('image'), (req,res) => {
-    let sql = 'insert into customer values (null, ?, ?, ?, ?, ?)';
+    let sql = 'insert into customer values (null, ?, ?, ?, ?, ?, now(), 0)';
     let image = '/image/' + req.file.filename;
     let name = req.body.name;
     let birthday = req.body.birthday;
@@ -64,5 +64,19 @@ app.post('/api/customers', upload.single('image'), (req,res) => {
     )
 });
 
+app.delete('/api/customers/:id', (req, res) => {
+    let sql = 'UPDATE customer SET isDeleted = 1 WHERE id = ?';
+    let params = [req.params.id];
+
+    connection.query(sql, params, (err, result) => {
+        if (err) {
+            console.error("Error deleting customer:", err);
+            res.status(500).send("Database error");
+        } else {
+            console.log(`Customer ID ${req.params.id} marked as deleted.`);
+            res.send({ success: true, affectedRows: result.affectedRows });
+        }
+    });
+});
 
 app.listen(port,() => console.log(`Listening on port ${port}`));
